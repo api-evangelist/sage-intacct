@@ -64,6 +64,10 @@ apis:
       - type: Documentation
         url: https://developer.intacct.com/api/
 common:
+  - type: GitHubOrganization
+    url: https://github.com/intacct
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/sageintacct
   - type: Website
     url: https://www.sage.com/en-us/sage-business-cloud/intacct/
   - type: Developer Portal
