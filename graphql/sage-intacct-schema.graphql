@@ -1,0 +1,1141 @@
+"""
+Sage Intacct GraphQL Schema
+Conceptual schema derived from Sage Intacct REST and XML API documentation.
+Source: https://developer.intacct.com/api/
+"""
+
+scalar DateTime
+scalar Date
+scalar Decimal
+scalar JSON
+
+# ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum AccountType {
+  BALANCE_SHEET
+  INCOME_STATEMENT
+  STATISTICAL
+}
+
+enum NormalBalance {
+  DEBIT
+  CREDIT
+}
+
+enum JournalStatus {
+  POSTED
+  UNPOSTED
+  REVERSED
+}
+
+enum BillStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  PAID
+  VOIDED
+  PARTIALLY_PAID
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  PAID
+  VOIDED
+  PARTIALLY_PAID
+  OVERDUE
+}
+
+enum PaymentStatus {
+  POSTED
+  VOIDED
+  PENDING
+}
+
+enum ProjectStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum ExpenseStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  DECLINED
+  REVERSED
+}
+
+enum TransactionType {
+  DEBIT
+  CREDIT
+}
+
+enum CurrencyCode {
+  USD
+  EUR
+  GBP
+  CAD
+  AUD
+  JPY
+  OTHER
+}
+
+# ─── Scalars & Shared Types ───────────────────────────────────────────────────
+
+type Address {
+  line1: String
+  line2: String
+  city: String
+  state: String
+  zip: String
+  country: String
+}
+
+type Money {
+  amount: Decimal!
+  currency: CurrencyCode!
+}
+
+type CustomField {
+  id: ID!
+  name: String!
+  label: String
+  dataType: String
+  value: String
+  objectType: String
+}
+
+# ─── General Ledger ───────────────────────────────────────────────────────────
+
+type GLAccount {
+  id: ID!
+  accountNo: String!
+  title: String!
+  accountType: AccountType!
+  normalBalance: NormalBalance!
+  category: String
+  parentAccountNo: String
+  accountGroup: AccountGroup
+  status: String
+  taxable: Boolean
+  location: Location
+  department: Department
+  customFields: [CustomField]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type AccountGroup {
+  id: ID!
+  name: String!
+  title: String
+  accountType: AccountType
+  accounts: [GLAccount]
+  parentGroup: AccountGroup
+  reportingGroupId: String
+}
+
+type Journal {
+  id: ID!
+  symbol: String!
+  title: String!
+  description: String
+  status: String
+  entries: [JournalEntry]
+}
+
+type JournalEntry {
+  id: ID!
+  journal: Journal!
+  postingDate: Date!
+  description: String
+  referenceNo: String
+  reverseDate: Date
+  status: JournalStatus!
+  lines: [JournalEntryLine]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type JournalEntryLine {
+  id: ID!
+  journalEntry: JournalEntry!
+  lineNo: Int
+  glAccount: GLAccount!
+  transactionType: TransactionType!
+  amount: Decimal!
+  currency: CurrencyCode
+  memo: String
+  location: Location
+  department: Department
+  project: Project
+  customer: Customer
+  vendor: Vendor
+  employee: Employee
+  class: Class
+  statBasis: StatBasis
+}
+
+type StatBasis {
+  id: ID!
+  name: String!
+  description: String
+  unitOfMeasure: String
+}
+
+# ─── Budgets and Forecasts ────────────────────────────────────────────────────
+
+type GLBudget {
+  id: ID!
+  name: String!
+  description: String
+  fiscalYear: Int
+  status: String
+  entries: [BudgetEntry]
+}
+
+type BudgetEntry {
+  id: ID!
+  budget: GLBudget!
+  glAccount: GLAccount!
+  period: String
+  amount: Decimal!
+  location: Location
+  department: Department
+}
+
+type Forecast {
+  id: ID!
+  name: String!
+  description: String
+  fiscalYear: Int
+  status: String
+  entries: [ForecastEntry]
+}
+
+type ForecastEntry {
+  id: ID!
+  forecast: Forecast!
+  glAccount: GLAccount!
+  period: String
+  amount: Decimal!
+  location: Location
+  department: Department
+}
+
+type Statistics {
+  id: ID!
+  glAccount: GLAccount!
+  period: String!
+  value: Decimal!
+  unitOfMeasure: String
+}
+
+# ─── Entity & Organization ────────────────────────────────────────────────────
+
+type Entity {
+  id: ID!
+  name: String!
+  legalName: String
+  ein: String
+  address: Address
+  phone: String
+  email: String
+  website: String
+  currency: CurrencyCode
+  fiscalYearStart: String
+  locations: [Location]
+  departments: [Department]
+}
+
+type Location {
+  id: ID!
+  locationId: String!
+  name: String!
+  parentLocation: Location
+  address: Address
+  status: String
+  entity: Entity
+}
+
+type Department {
+  id: ID!
+  departmentId: String!
+  name: String!
+  parentDepartment: Department
+  manager: Employee
+  status: String
+}
+
+type Class {
+  id: ID!
+  classId: String!
+  name: String!
+  status: String
+}
+
+type Function {
+  id: ID!
+  functionId: String!
+  name: String!
+  status: String
+}
+
+# ─── Customers & Vendors ─────────────────────────────────────────────────────
+
+type Customer {
+  id: ID!
+  customerId: String!
+  name: String!
+  printAs: String
+  customerType: String
+  status: String
+  address: Address
+  phone: String
+  email: String
+  website: String
+  creditLimit: Decimal
+  paymentTerm: String
+  taxId: String
+  contacts: [Contact]
+  invoices: [ARInvoice]
+  credits: [ARCredit]
+  customFields: [CustomField]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type Vendor {
+  id: ID!
+  vendorId: String!
+  name: String!
+  printAs: String
+  vendorType: String
+  status: String
+  address: Address
+  phone: String
+  email: String
+  website: String
+  paymentTerm: String
+  taxId: String
+  form1099: Boolean
+  contacts: [Contact]
+  bills: [APBill]
+  credits: [APCredit]
+  customFields: [CustomField]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type Contact {
+  id: ID!
+  contactName: String!
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  mobile: String
+  fax: String
+  address: Address
+  isPrimary: Boolean
+}
+
+# ─── Accounts Payable ─────────────────────────────────────────────────────────
+
+type APBill {
+  id: ID!
+  recordNo: String!
+  vendor: Vendor!
+  billDate: Date!
+  dueDate: Date
+  description: String
+  referenceNo: String
+  status: BillStatus!
+  totalAmount: Decimal!
+  paidAmount: Decimal
+  currency: CurrencyCode
+  location: Location
+  department: Department
+  lines: [APBillLine]
+  payments: [APPayment]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type APBillLine {
+  id: ID!
+  bill: APBill!
+  lineNo: Int
+  glAccount: GLAccount!
+  amount: Decimal!
+  memo: String
+  location: Location
+  department: Department
+  project: Project
+  class: Class
+}
+
+type APPayment {
+  id: ID!
+  vendor: Vendor!
+  paymentDate: Date!
+  amount: Decimal!
+  currency: CurrencyCode
+  status: PaymentStatus!
+  bankAccount: BankAccount
+  checkNo: String
+  bills: [APBill]
+  createdAt: DateTime
+}
+
+type APCredit {
+  id: ID!
+  vendor: Vendor!
+  creditDate: Date!
+  amount: Decimal!
+  currency: CurrencyCode
+  description: String
+  status: String
+  lines: [APCreditLine]
+}
+
+type APCreditLine {
+  id: ID!
+  credit: APCredit!
+  glAccount: GLAccount!
+  amount: Decimal!
+  memo: String
+}
+
+# ─── Accounts Receivable ──────────────────────────────────────────────────────
+
+type ARInvoice {
+  id: ID!
+  recordNo: String!
+  customer: Customer!
+  invoiceDate: Date!
+  dueDate: Date
+  description: String
+  referenceNo: String
+  status: InvoiceStatus!
+  totalAmount: Decimal!
+  paidAmount: Decimal
+  currency: CurrencyCode
+  location: Location
+  department: Department
+  lines: [ARInvoiceLine]
+  payments: [ARPayment]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type ARInvoiceLine {
+  id: ID!
+  invoice: ARInvoice!
+  lineNo: Int
+  glAccount: GLAccount!
+  amount: Decimal!
+  memo: String
+  location: Location
+  department: Department
+  project: Project
+  class: Class
+  item: Item
+  quantity: Decimal
+  unitPrice: Decimal
+}
+
+type ARPayment {
+  id: ID!
+  customer: Customer!
+  paymentDate: Date!
+  amount: Decimal!
+  currency: CurrencyCode
+  status: PaymentStatus!
+  bankAccount: BankAccount
+  checkNo: String
+  invoices: [ARInvoice]
+  createdAt: DateTime
+}
+
+type ARCredit {
+  id: ID!
+  customer: Customer!
+  creditDate: Date!
+  amount: Decimal!
+  currency: CurrencyCode
+  description: String
+  status: String
+  lines: [ARCreditLine]
+}
+
+type ARCreditLine {
+  id: ID!
+  credit: ARCredit!
+  glAccount: GLAccount!
+  amount: Decimal!
+  memo: String
+}
+
+# ─── Cash Management ─────────────────────────────────────────────────────────
+
+type BankAccount {
+  id: ID!
+  bankAccountId: String!
+  name: String!
+  bankName: String
+  accountNo: String
+  routingNo: String
+  currency: CurrencyCode
+  glAccount: GLAccount
+  status: String
+  feeds: [BankFeed]
+}
+
+type BankFeed {
+  id: ID!
+  bankAccount: BankAccount!
+  feedDate: Date!
+  description: String
+  amount: Decimal!
+  transactionType: TransactionType!
+  status: String
+  matchedEntry: CashEntry
+}
+
+type CashReceipt {
+  id: ID!
+  bankAccount: BankAccount!
+  receiptDate: Date!
+  amount: Decimal!
+  currency: CurrencyCode
+  description: String
+  referenceNo: String
+  customer: Customer
+  lines: [CashReceiptLine]
+  deposit: Deposit
+}
+
+type CashReceiptLine {
+  id: ID!
+  cashReceipt: CashReceipt!
+  glAccount: GLAccount!
+  amount: Decimal!
+  memo: String
+}
+
+type CashEntry {
+  id: ID!
+  bankAccount: BankAccount!
+  entryDate: Date!
+  amount: Decimal!
+  transactionType: TransactionType!
+  description: String
+  referenceNo: String
+  glAccount: GLAccount
+}
+
+type Deposit {
+  id: ID!
+  bankAccount: BankAccount!
+  depositDate: Date!
+  totalAmount: Decimal!
+  description: String
+  receipts: [CashReceipt]
+  status: String
+}
+
+type AdvancedCredit {
+  id: ID!
+  customer: Customer!
+  creditDate: Date!
+  amount: Decimal!
+  currency: CurrencyCode
+  description: String
+  status: String
+  glAccount: GLAccount
+}
+
+# ─── Allocations ─────────────────────────────────────────────────────────────
+
+type Allocation {
+  id: ID!
+  allocationId: String!
+  name: String!
+  description: String
+  type: String
+  status: String
+  entries: [AllocationEntry]
+}
+
+type AllocationEntry {
+  id: ID!
+  allocation: Allocation!
+  glAccount: GLAccount!
+  location: Location
+  department: Department
+  percentage: Decimal
+  amount: Decimal
+}
+
+# ─── Projects & Time ─────────────────────────────────────────────────────────
+
+type Project {
+  id: ID!
+  projectId: String!
+  name: String!
+  description: String
+  status: ProjectStatus!
+  projectType: String
+  customer: Customer
+  manager: Employee
+  startDate: Date
+  endDate: Date
+  estimatedAmount: Decimal
+  billedAmount: Decimal
+  location: Location
+  department: Department
+  tasks: [Task]
+  contracts: [ProjectContract]
+  resources: [ProjectResource]
+  customFields: [CustomField]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type Task {
+  id: ID!
+  project: Project!
+  taskName: String!
+  description: String
+  status: String
+  startDate: Date
+  endDate: Date
+  estimatedHours: Decimal
+  actualHours: Decimal
+  billable: Boolean
+  assignedTo: Employee
+}
+
+type Timesheet {
+  id: ID!
+  employee: Employee!
+  weekEndingDate: Date!
+  description: String
+  status: String
+  totalHours: Decimal
+  entries: [TimesheetEntry]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type TimesheetEntry {
+  id: ID!
+  timesheet: Timesheet!
+  entryDate: Date!
+  project: Project!
+  task: Task
+  hours: Decimal!
+  billable: Boolean
+  description: String
+  glAccount: GLAccount
+  location: Location
+  department: Department
+}
+
+type ProjectContract {
+  id: ID!
+  project: Project!
+  contractNo: String!
+  description: String
+  contractDate: Date
+  totalAmount: Decimal
+  billedAmount: Decimal
+  status: String
+  customer: Customer
+}
+
+type ProjectResource {
+  id: ID!
+  project: Project!
+  employee: Employee!
+  role: String
+  plannedHours: Decimal
+  actualHours: Decimal
+  billRate: Decimal
+  costRate: Decimal
+}
+
+type Engagement {
+  id: ID!
+  name: String!
+  description: String
+  customer: Customer
+  project: Project
+  startDate: Date
+  endDate: Date
+  status: String
+  billingType: String
+}
+
+# ─── Employees & Expenses ────────────────────────────────────────────────────
+
+type Employee {
+  id: ID!
+  employeeId: String!
+  firstName: String!
+  lastName: String!
+  email: String
+  phone: String
+  title: String
+  department: Department
+  location: Location
+  manager: Employee
+  status: String
+  startDate: Date
+  contact: Contact
+  expenses: [EmployeeExpense]
+  timesheets: [Timesheet]
+  customFields: [CustomField]
+}
+
+type EmployeeExpense {
+  id: ID!
+  employee: Employee!
+  expenseDate: Date!
+  description: String
+  totalAmount: Decimal!
+  currency: CurrencyCode
+  status: ExpenseStatus!
+  reimbursable: Boolean
+  lines: [ExpenseLine]
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type ExpenseLine {
+  id: ID!
+  expense: EmployeeExpense!
+  lineNo: Int
+  expenseType: String
+  amount: Decimal!
+  quantity: Decimal
+  unitRate: Decimal
+  memo: String
+  glAccount: GLAccount
+  project: Project
+  task: Task
+  location: Location
+  department: Department
+  billable: Boolean
+}
+
+# ─── Inventory & Order Entry ─────────────────────────────────────────────────
+
+type Item {
+  id: ID!
+  itemId: String!
+  name: String!
+  description: String
+  itemType: String
+  status: String
+  unitOfMeasure: String
+  unitPrice: Decimal
+  costMethod: String
+  glAccount: GLAccount
+  taxable: Boolean
+}
+
+type SODocument {
+  id: ID!
+  documentNo: String!
+  customer: Customer!
+  documentDate: Date!
+  dueDate: Date
+  description: String
+  status: String
+  totalAmount: Decimal!
+  location: Location
+  transactions: [SOTransaction]
+}
+
+type SOTransaction {
+  id: ID!
+  soDocument: SODocument!
+  transactionType: String!
+  transactionDate: Date!
+  item: Item!
+  quantity: Decimal!
+  unitPrice: Decimal!
+  discount: Decimal
+  totalAmount: Decimal!
+  glAccount: GLAccount
+  project: Project
+  location: Location
+  department: Department
+}
+
+type PODocument {
+  id: ID!
+  documentNo: String!
+  vendor: Vendor!
+  documentDate: Date!
+  dueDate: Date
+  description: String
+  status: String
+  totalAmount: Decimal!
+  location: Location
+  transactions: [POTransaction]
+}
+
+type POTransaction {
+  id: ID!
+  poDocument: PODocument!
+  transactionType: String!
+  transactionDate: Date!
+  item: Item!
+  quantity: Decimal!
+  unitPrice: Decimal!
+  discount: Decimal
+  totalAmount: Decimal!
+  glAccount: GLAccount
+  project: Project
+  location: Location
+  department: Department
+}
+
+# ─── Dimensions ───────────────────────────────────────────────────────────────
+
+type Dimension {
+  id: ID!
+  dimensionId: String!
+  name: String!
+  description: String
+  status: String
+  values: [DimensionValue]
+}
+
+type DimensionValue {
+  id: ID!
+  dimension: Dimension!
+  value: String!
+  label: String
+  parentValue: DimensionValue
+  status: String
+}
+
+type Restriction {
+  id: ID!
+  name: String!
+  description: String
+  restrictionType: String
+  location: Location
+  department: Department
+  class: Class
+  status: String
+}
+
+# ─── Reporting ────────────────────────────────────────────────────────────────
+
+type Reporting {
+  id: ID!
+  name: String!
+  description: String
+  reportType: String
+  fiscalYear: Int
+  period: String
+  generatedAt: DateTime
+}
+
+type ReportDefinition {
+  id: ID!
+  name: String!
+  description: String
+  reportType: String
+  columns: [String]
+  filters: JSON
+  sortOrder: String
+  glAccounts: [GLAccount]
+  locations: [Location]
+  departments: [Department]
+}
+
+type FinancialReport {
+  id: ID!
+  reportDefinition: ReportDefinition!
+  periodStart: Date!
+  periodEnd: Date!
+  generatedAt: DateTime
+  rows: [JSON]
+}
+
+type GLReporting {
+  id: ID!
+  glAccount: GLAccount!
+  period: String!
+  openingBalance: Decimal
+  debits: Decimal
+  credits: Decimal
+  closingBalance: Decimal
+  currency: CurrencyCode
+}
+
+type APAging {
+  id: ID!
+  vendor: Vendor!
+  asOfDate: Date!
+  current: Decimal
+  days1to30: Decimal
+  days31to60: Decimal
+  days61to90: Decimal
+  over90: Decimal
+  total: Decimal
+}
+
+type ARAging {
+  id: ID!
+  customer: Customer!
+  asOfDate: Date!
+  current: Decimal
+  days1to30: Decimal
+  days31to60: Decimal
+  days61to90: Decimal
+  over90: Decimal
+  total: Decimal
+}
+
+# ─── Platform Services ────────────────────────────────────────────────────────
+
+type Webhook {
+  id: ID!
+  name: String!
+  url: String!
+  event: String!
+  status: String
+  secret: String
+  headers: JSON
+  createdAt: DateTime
+  modifiedAt: DateTime
+}
+
+type Connection {
+  id: ID!
+  name: String!
+  connectionType: String!
+  status: String
+  companyId: String
+  userId: String
+  createdAt: DateTime
+  lastUsedAt: DateTime
+}
+
+type APIToken {
+  id: ID!
+  name: String!
+  token: String
+  status: String
+  scopes: [String]
+  expiresAt: DateTime
+  createdAt: DateTime
+}
+
+type CompanyPreferences {
+  id: ID!
+  companyName: String!
+  defaultCurrency: CurrencyCode
+  fiscalYearEnd: String
+  multiCurrencyEnabled: Boolean
+  projectAccountingEnabled: Boolean
+  fixedAssetsEnabled: Boolean
+  timesheet: Boolean
+  expenseReports: Boolean
+  baseCurrency: CurrencyCode
+}
+
+# ─── Query Root ───────────────────────────────────────────────────────────────
+
+type Query {
+  # General Ledger
+  glAccount(id: ID!): GLAccount
+  glAccounts(status: String, accountType: AccountType, limit: Int, offset: Int): [GLAccount]
+  accountGroup(id: ID!): AccountGroup
+  accountGroups(limit: Int, offset: Int): [AccountGroup]
+  journal(id: ID!): Journal
+  journals(limit: Int, offset: Int): [Journal]
+  journalEntry(id: ID!): JournalEntry
+  journalEntries(journalId: ID, postingDate: Date, status: JournalStatus, limit: Int, offset: Int): [JournalEntry]
+
+  # Budgets and Forecasts
+  glBudget(id: ID!): GLBudget
+  glBudgets(fiscalYear: Int, limit: Int, offset: Int): [GLBudget]
+  forecast(id: ID!): Forecast
+  forecasts(fiscalYear: Int, limit: Int, offset: Int): [Forecast]
+  statistics(glAccountId: ID, period: String, limit: Int, offset: Int): [Statistics]
+
+  # Entity
+  entity(id: ID!): Entity
+  location(id: ID!): Location
+  locations(status: String, limit: Int, offset: Int): [Location]
+  department(id: ID!): Department
+  departments(status: String, limit: Int, offset: Int): [Department]
+  class(id: ID!): Class
+  classes(status: String, limit: Int, offset: Int): [Class]
+
+  # Customers and Vendors
+  customer(id: ID!): Customer
+  customers(status: String, customerType: String, limit: Int, offset: Int): [Customer]
+  vendor(id: ID!): Vendor
+  vendors(status: String, vendorType: String, limit: Int, offset: Int): [Vendor]
+  contact(id: ID!): Contact
+  contacts(limit: Int, offset: Int): [Contact]
+
+  # Accounts Payable
+  apBill(id: ID!): APBill
+  apBills(vendorId: ID, status: BillStatus, dueDateFrom: Date, dueDateTo: Date, limit: Int, offset: Int): [APBill]
+  apPayment(id: ID!): APPayment
+  apPayments(vendorId: ID, status: PaymentStatus, limit: Int, offset: Int): [APPayment]
+  apCredit(id: ID!): APCredit
+  apCredits(vendorId: ID, limit: Int, offset: Int): [APCredit]
+
+  # Accounts Receivable
+  arInvoice(id: ID!): ARInvoice
+  arInvoices(customerId: ID, status: InvoiceStatus, dueDateFrom: Date, dueDateTo: Date, limit: Int, offset: Int): [ARInvoice]
+  arPayment(id: ID!): ARPayment
+  arPayments(customerId: ID, status: PaymentStatus, limit: Int, offset: Int): [ARPayment]
+  arCredit(id: ID!): ARCredit
+  arCredits(customerId: ID, limit: Int, offset: Int): [ARCredit]
+
+  # Cash Management
+  bankAccount(id: ID!): BankAccount
+  bankAccounts(status: String, limit: Int, offset: Int): [BankAccount]
+  bankFeed(id: ID!): BankFeed
+  bankFeeds(bankAccountId: ID, status: String, limit: Int, offset: Int): [BankFeed]
+  cashReceipt(id: ID!): CashReceipt
+  cashReceipts(bankAccountId: ID, limit: Int, offset: Int): [CashReceipt]
+  cashEntry(id: ID!): CashEntry
+  cashEntries(bankAccountId: ID, limit: Int, offset: Int): [CashEntry]
+  deposit(id: ID!): Deposit
+  deposits(bankAccountId: ID, limit: Int, offset: Int): [Deposit]
+  advancedCredit(id: ID!): AdvancedCredit
+  advancedCredits(customerId: ID, limit: Int, offset: Int): [AdvancedCredit]
+
+  # Allocations
+  allocation(id: ID!): Allocation
+  allocations(status: String, limit: Int, offset: Int): [Allocation]
+
+  # Projects and Time
+  project(id: ID!): Project
+  projects(status: ProjectStatus, customerId: ID, managerId: ID, limit: Int, offset: Int): [Project]
+  task(id: ID!): Task
+  tasks(projectId: ID, status: String, limit: Int, offset: Int): [Task]
+  timesheet(id: ID!): Timesheet
+  timesheets(employeeId: ID, status: String, weekEndingDate: Date, limit: Int, offset: Int): [Timesheet]
+  timesheetEntry(id: ID!): TimesheetEntry
+  projectContract(id: ID!): ProjectContract
+  projectContracts(projectId: ID, limit: Int, offset: Int): [ProjectContract]
+  engagement(id: ID!): Engagement
+  engagements(customerId: ID, status: String, limit: Int, offset: Int): [Engagement]
+
+  # Employees and Expenses
+  employee(id: ID!): Employee
+  employees(status: String, departmentId: ID, limit: Int, offset: Int): [Employee]
+  employeeExpense(id: ID!): EmployeeExpense
+  employeeExpenses(employeeId: ID, status: ExpenseStatus, limit: Int, offset: Int): [EmployeeExpense]
+
+  # Inventory and Orders
+  item(id: ID!): Item
+  items(status: String, itemType: String, limit: Int, offset: Int): [Item]
+  soDocument(id: ID!): SODocument
+  soDocuments(customerId: ID, status: String, limit: Int, offset: Int): [SODocument]
+  poDocument(id: ID!): PODocument
+  poDocuments(vendorId: ID, status: String, limit: Int, offset: Int): [PODocument]
+
+  # Dimensions
+  dimension(id: ID!): Dimension
+  dimensions(status: String, limit: Int, offset: Int): [Dimension]
+  dimensionValue(id: ID!): DimensionValue
+  restriction(id: ID!): Restriction
+  restrictions(limit: Int, offset: Int): [Restriction]
+
+  # Reporting
+  apAging(asOfDate: Date, vendorId: ID): [APAging]
+  arAging(asOfDate: Date, customerId: ID): [ARAging]
+  glReporting(glAccountId: ID, period: String, limit: Int, offset: Int): [GLReporting]
+  reportDefinition(id: ID!): ReportDefinition
+  reportDefinitions(limit: Int, offset: Int): [ReportDefinition]
+  financialReport(id: ID!): FinancialReport
+
+  # Platform
+  webhook(id: ID!): Webhook
+  webhooks(status: String, limit: Int, offset: Int): [Webhook]
+  connection(id: ID!): Connection
+  connections(status: String, limit: Int, offset: Int): [Connection]
+  apiToken(id: ID!): APIToken
+  apiTokens(status: String, limit: Int, offset: Int): [APIToken]
+  companyPreferences: CompanyPreferences
+  customField(id: ID!): CustomField
+  customFields(objectType: String, limit: Int, offset: Int): [CustomField]
+}
+
+# ─── Mutation Root ────────────────────────────────────────────────────────────
+
+type Mutation {
+  # GL
+  createGLAccount(input: JSON!): GLAccount
+  updateGLAccount(id: ID!, input: JSON!): GLAccount
+  deleteGLAccount(id: ID!): Boolean
+
+  createJournalEntry(input: JSON!): JournalEntry
+  updateJournalEntry(id: ID!, input: JSON!): JournalEntry
+  postJournalEntry(id: ID!): JournalEntry
+  reverseJournalEntry(id: ID!, reverseDate: Date!): JournalEntry
+
+  # AP
+  createAPBill(input: JSON!): APBill
+  updateAPBill(id: ID!, input: JSON!): APBill
+  approveAPBill(id: ID!): APBill
+  voidAPBill(id: ID!): APBill
+  createAPPayment(input: JSON!): APPayment
+  voidAPPayment(id: ID!): APPayment
+
+  # AR
+  createARInvoice(input: JSON!): ARInvoice
+  updateARInvoice(id: ID!, input: JSON!): ARInvoice
+  voidARInvoice(id: ID!): ARInvoice
+  createARPayment(input: JSON!): ARPayment
+  voidARPayment(id: ID!): ARPayment
+
+  # Cash
+  createCashEntry(input: JSON!): CashEntry
+  createDeposit(input: JSON!): Deposit
+  reconcileBankFeed(id: ID!, cashEntryId: ID!): BankFeed
+
+  # Customers and Vendors
+  createCustomer(input: JSON!): Customer
+  updateCustomer(id: ID!, input: JSON!): Customer
+  createVendor(input: JSON!): Vendor
+  updateVendor(id: ID!, input: JSON!): Vendor
+
+  # Projects
+  createProject(input: JSON!): Project
+  updateProject(id: ID!, input: JSON!): Project
+  createTask(projectId: ID!, input: JSON!): Task
+  createTimesheet(input: JSON!): Timesheet
+  submitTimesheet(id: ID!): Timesheet
+  approveTimesheet(id: ID!): Timesheet
+
+  # Expenses
+  createEmployeeExpense(input: JSON!): EmployeeExpense
+  submitEmployeeExpense(id: ID!): EmployeeExpense
+  approveEmployeeExpense(id: ID!): EmployeeExpense
+
+  # Platform
+  createWebhook(input: JSON!): Webhook
+  updateWebhook(id: ID!, input: JSON!): Webhook
+  deleteWebhook(id: ID!): Boolean
+  createAPIToken(input: JSON!): APIToken
+  revokeAPIToken(id: ID!): Boolean
+}
