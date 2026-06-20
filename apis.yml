@@ -7,7 +7,7 @@ description: Sage Intacct is a cloud-based financial management and accounting p
   access to general ledger, accounts payable, accounts receivable, cash management,
   order entry, purchasing, and custom dimensions.
 type: Index
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Accounting
 - Financial Management
