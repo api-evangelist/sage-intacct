@@ -68,7 +68,7 @@ common:
   url: https://www.linkedin.com/company/sageintacct
 - type: Website
   url: https://www.sage.com/en-us/sage-business-cloud/intacct/
-- type: Developer Portal
+- type: DeveloperPortal
   url: https://developer.sage.com/intacct
 - type: Documentation
   url: https://developer.sage.com/intacct/docs/
