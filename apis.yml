@@ -62,6 +62,10 @@ apis:
   - type: Documentation
     url: https://developer.intacct.com/api/
 common:
+- type: VulnerabilityDisclosure
+  url: security/sage-intacct-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/sage-intacct-domain-security.yml
 - type: GitHubOrganization
   url: https://github.com/intacct
 - type: LinkedIn
@@ -76,6 +80,8 @@ common:
   url: https://developer-community.sage.com/
 - type: Pricing
   url: https://www.sage.com/en-us/sage-business-cloud/intacct/pricing/
+- url: https://www.sage.com/en-us/blog/feed/
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
