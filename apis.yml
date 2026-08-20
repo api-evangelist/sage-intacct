@@ -42,6 +42,11 @@ apis:
   baseURL: https://api.intacct.com/ia/api/v1
   tags:
   - REST
+  - Authentication
+  - Financials
+  - Accounting
+  tags_raw:
+  - REST
   - OAuth 2.0
   - Financials
   - Accounting
