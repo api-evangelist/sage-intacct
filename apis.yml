@@ -54,7 +54,7 @@ apis:
   tags:
   - REST
   - Authentication
-  - Financials
+  - Financial
   - Accounting
   tags_raw:
   - REST
@@ -81,6 +81,11 @@ apis:
   humanURL: https://developer.intacct.com/api/
   baseURL: https://api.intacct.com/ia/xml/xmlgw.phtml
   tags:
+  - XML
+  - Legacy
+  - Financial
+  - Accounting
+  tags_raw:
   - XML
   - Legacy
   - Financials
