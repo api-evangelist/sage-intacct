@@ -54,13 +54,14 @@ apis:
   tags:
   - REST
   - Authentication
-  - Financial
+  - Finance
   - Accounting
   tags_raw:
   - REST
   - OAuth 2.0
   - Financials
   - Accounting
+  - Financial
   properties:
   - type: Documentation
     url: https://developer.sage.com/intacct/docs/1/sage-intacct-rest-api/
@@ -70,8 +71,6 @@ apis:
     url: https://developer.sage.com/intacct/docs/1/sage-intacct-rest-api/authorization-and-security/oauth2
   - type: OpenAPI
     url: https://developer.sage.com/intacct/apis/intacct/1/intacct-openapi
-  - url: graphql/sage-intacct-graphql.md
-    type: GraphQL
 - aid: sage-intacct:xml-api
   name: Sage Intacct XML API
   description: Legacy XML API providing programmatic access to general ledger, accounts
@@ -83,13 +82,14 @@ apis:
   tags:
   - XML
   - Legacy
-  - Financial
+  - Finance
   - Accounting
   tags_raw:
   - XML
   - Legacy
   - Financials
   - Accounting
+  - Financial
   properties:
   - type: Documentation
     url: https://developer.intacct.com/api/
