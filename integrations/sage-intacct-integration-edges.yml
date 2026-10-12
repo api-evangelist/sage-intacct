@@ -1,0 +1,457 @@
+generated: '2026-10-12'
+method: searched
+source:
+- https://zapier.com/apps/sage-intacct/integrations
+checked:
+- https://composio.dev/toolkits/sage-intacct
+- https://monid.ai/tools/sage-intacct
+- https://n8n.io/integrations/sage-intacct/
+- https://zapier.com/apps/sage-intacct/integrations
+summary: null
+marketplace_apps:
+- marketplace: zapier
+  channel: ipaas-listing
+  app: sage-intacct
+  url: https://zapier.com/apps/sage-intacct/integrations
+  external_url: https://www.sage.com/en-us/sage-business-cloud/intacct/
+  partner_tier: BRONZE
+  triggers:
+  - key: contact_v2
+    label: New Contact
+  - key: customer_v2
+    label: New Customer
+  - key: invoice_v2
+    label: New Invoice
+  - key: payment_receivable_v2
+    label: New Payment Received (Accounts Receivable)
+  - key: sales_invoice_v2
+    label: New Sales Invoice
+  - key: vendor_invoice_v2
+    label: New Vendor Invoice
+  - key: vendor_v2
+    label: New Vendor
+  actions:
+  - key: create_bill_v2
+    label: Create Bill
+  - key: create_contact_v2
+    label: Create Contact
+  - key: create_customer_v2
+    label: Create Customer
+  - key: create_invoice
+    label: Create Invoice
+  - key: create_or_update_project_resource_v2
+    label: Create or Update Project Resource
+  - key: create_vendor_invoice
+    label: Create Vendor Invoice
+  - key: update_bill
+    label: Update Bill
+  - key: update_customer
+    label: Update Customer
+  - key: update_invoice
+    label: Update Invoice
+  - key: update_vendor_invoice
+    label: Update Vendor Invoice
+  searches:
+  - key: find_bill_v2
+    label: Find Bill
+  - key: find_customer_v2
+    label: Find Customer
+  - key: find_invoice_v2
+    label: Find Invoice
+  - key: find_vendor_v2
+    label: Find Vendor
+  - key: invoices
+    label: Find Invoices
+edges:
+- partner_name: HubSpot
+  partner: hubspot
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/hubspot
+  direction: third-party
+  category: Marketing Automation
+  partner_url: http://www.hubspot.com/
+- partner_name: Stripe
+  partner: stripe
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/stripe
+  direction: third-party
+  category: Payment Processing
+  partner_url: https://stripe.com/
+- partner_name: Airtable
+  partner: airtable
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/airtable
+  direction: third-party
+  category: Databases
+  partner_url: https://airtable.com/
+- partner_name: Wix
+  partner: wix
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/wix
+  direction: third-party
+  category: Website Builders
+  partner_url: https://www.wix.com/
+- partner_name: Pipedrive
+  partner: pipedrive
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/pipedrive
+  direction: third-party
+  category: CRM (Customer Relationship Management)
+  partner_url: https://pipedrive.com/
+- partner_name: Shopify
+  partner: shopify
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/shopify
+  direction: third-party
+  category: eCommerce
+  partner_url: https://www.shopify.com/
+- partner_name: ActiveCampaign
+  partner: activecampaign
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/activecampaign
+  direction: third-party
+  category: Marketing Automation
+  partner_url: https://www.activecampaign.com/?utm_source=unpaid_syndication_website&utm_medium=referral&utm_campaign=zapier_listing
+- partner_name: Salesforce
+  partner: salesforce
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/salesforce
+  direction: third-party
+  category: CRM (Customer Relationship Management)
+  partner_url: https://www.salesforce.com/
+- partner_name: Zoho CRM
+  partner: zoho-crm
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/zoho-crm
+  direction: third-party
+  category: CRM (Customer Relationship Management)
+  partner_url: https://go.zoho.com/wOk
+- partner_name: Kajabi
+  partner: kajabi
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/kajabi
+  direction: third-party
+  category: eCommerce
+  partner_url: http://kajabi.com/
+- partner_name: monday.com
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/monday
+  direction: third-party
+  category: Project Management
+  partner_url: https://monday.com/
+- partner_name: Microsoft Excel
+  partner: null
+  partner_match: null
+  partner_candidate: zapier
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/excel
+  direction: third-party
+  category: Microsoft
+  partner_url: https://zapier.com/office.com
+- partner_name: LeadConnector
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/leadconnector
+  direction: third-party
+  category: Marketing Automation
+  partner_url: https://www.leadconnectorhq.com/
+- partner_name: WooCommerce
+  partner: woocommerce
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/woocommerce
+  direction: third-party
+  category: eCommerce
+  partner_url: https://woocommerce.com/products/woocommerce-zapier/?utm_source=zapier&utm_medium=website&utm_campaign=integration
+- partner_name: Square
+  partner: square
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/square
+  direction: third-party
+  category: eCommerce
+  partner_url: https://squareup.com/t/cmtp_performance/pr_developers/d_partnerships/p_zapier/?route=
+- partner_name: Mailchimp
+  partner: mailchimp
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/mailchimp
+  direction: third-party
+  category: Marketing Automation
+  partner_url: https://mailchimp.com/
+- partner_name: Jotform
+  partner: jotform
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/jotform
+  direction: third-party
+  category: Forms & Surveys
+  partner_url: http://www.jotform.com/
+- partner_name: Podio
+  partner: podio
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/podio
+  direction: third-party
+  category: Project Management
+  partner_url: https://podio.com/
+- partner_name: Wufoo
+  partner: wufoo
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/wufoo
+  direction: third-party
+  category: Forms & Surveys
+  partner_url: https://www.wufoo.com/
+- partner_name: Eventbrite
+  partner: eventbrite
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/eventbrite
+  direction: third-party
+  category: Event Management
+  partner_url: https://eventbrite.com/
+- partner_name: Typeform
+  partner: typeform
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/typeform
+  direction: third-party
+  category: Forms & Surveys
+  partner_url: https://www.typeform.com/signup?utm_medium=referral&utm_source=zapier&utm_campaign=zapier_integration&utm_content=marketplace
+- partner_name: eBay
+  partner: ebay
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/ebay
+  direction: third-party
+  category: eCommerce
+  partner_url: https://www.ebay.com/
+- partner_name: PayPal
+  partner: paypal
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/paypal
+  direction: third-party
+  category: Payment Processing
+  partner_url: https://www.paypal.com/
+- partner_name: Microsoft Outlook
+  partner: microsoft-outlook
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/microsoft-outlook
+  direction: third-party
+  category: Calendar
+  partner_url: https://outlook.live.com/
+- partner_name: Xero
+  partner: xero
+  partner_match: name-exact
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/xero
+  direction: third-party
+  category: Accounting
+  partner_url: https://xero5440.partnerlinks.io/uvwuuwrxyoi8
+- partner_name: ShipStation
+  partner: shipstation
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/shipstation
+  direction: third-party
+  category: eCommerce
+  partner_url: http://www.shipstation.com/
+- partner_name: BookingKoala
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/bookingkoala
+  direction: third-party
+  category: Scheduling & Booking
+  partner_url: https://www.bookingkoala.com/
+- partner_name: TaxDome
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/taxdome
+  direction: third-party
+  category: Accounting
+  partner_url: https://taxdome.com/
+- partner_name: Jobber
+  partner: jobber
+  partner_match: domain
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/jobber
+  direction: third-party
+  category: Scheduling & Booking
+  partner_url: https://www.getjobber.com/plp/zapier?utm_source=Zapier&utm_medium=PLP
+- partner_name: Planning Pod
+  partner: null
+  partner_match: null
+  partner_candidate: null
+  type: marketplace
+  marketplace: zapier
+  channel: ipaas-usage
+  evidence: https://zapier.com/apps/sage-intacct/integrations/planning-pod
+  direction: third-party
+  category: Event Management
+  partner_url: https://www.planningpod.com/
+templates:
+- title: Create Mailchimp Subscribers for new Vendors
+  url: https://zapier.com/apps/mailchimp/integrations/sage-intacct/1770992/create-mailchimp-subscribers-for-new-vendors
+  apps:
+  - sage-intacct
+  - mailchimp
+- title: Create Tasks in Asana for new Contacts in Sage Intacct
+  url: https://zapier.com/apps/asana/integrations/sage-intacct/1770999/create-tasks-in-asana-for-new-contacts-in-sage-intacct
+  apps:
+  - sage-intacct
+  - asana
+- title: Create New Contacts in Sage Intacct for new Customers in Stripe
+  url: https://zapier.com/apps/sage-intacct/integrations/stripe/1771002/create-new-contacts-in-sage-intacct-for-new-customers-in-stripe
+  apps:
+  - stripe
+  - sage-intacct
+- title: Record Payment in Stripe when new AR Payment in Sage Intacct is added
+  url: https://zapier.com/apps/sage-intacct/integrations/stripe/1771023/record-payment-in-stripe-when-new-ar-payment-in-sage-intacct-is-added
+  apps:
+  - sage-intacct
+  - stripe
+- title: Add customer details to private comment to ticket in Zendesk for Sage Intacct customers
+  url: https://zapier.com/apps/zendesk/integrations/zendesk/1771062/add-customer-details-to-private-comment-to-ticket-in-zendesk-for-sage-intacct-customers
+  apps:
+  - zendesk
+  - sage-intacct
+- title: Create new Shippo orders from new Sage Intacct invoices
+  url: https://zapier.com/apps/sage-intacct/integrations/shippo/1775574/create-new-shippo-orders-from-new-sage-intacct-invoices
+  apps:
+  - sage-intacct
+  - shippo
+- title: Subscribe persons in Action Network when new invoices are tracked in Sage Intacct
+  url: https://zapier.com/apps/actionnetwork/integrations/sage-intacct/1775575/subscribe-persons-in-action-network-when-new-invoices-are-tracked-in-sage-intacct
+  apps:
+  - sage-intacct
+  - actionnetwork
+- title: Create new Sage Intacct contacts from new Eventbrite events
+  url: https://zapier.com/apps/eventbrite/integrations/sage-intacct/1775580/create-new-sage-intacct-contacts-from-new-eventbrite-events
+  apps:
+  - eventbrite
+  - sage-intacct
+- title: Create records in Zapier Tables for new invoices in Sage Intacct
+  url: https://zapier.com/apps/sage-intacct/integrations/zapier-tables/1775583/create-records-in-zapier-tables-for-new-invoices-in-sage-intacct
+  apps:
+  - sage-intacct
+  - zapier-tables
+- title: Create or update LeadConnector opportunities from new Sage Intacct invoices
+  url: https://zapier.com/apps/leadconnector/integrations/sage-intacct/1775584/create-or-update-leadconnector-opportunities-from-new-sage-intacct-invoices
+  apps:
+  - sage-intacct
+  - leadconnector
+- title: Create or update HubSpot contacts for new Sage Intacct invoices
+  url: https://zapier.com/apps/hubspot/integrations/sage-intacct/1775586/create-or-update-hubspot-contacts-for-new-sage-intacct-invoices
+  apps:
+  - sage-intacct
+  - hubspot
+- title: Send new Sage Intacct payment notifications to Slack channel as messages
+  url: https://zapier.com/apps/sage-intacct/integrations/slack/1775591/send-new-sage-intacct-payment-notifications-to-slack-channel-as-messages
+  apps:
+  - sage-intacct
+  - slack
+template_total: 2673
