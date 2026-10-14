@@ -184,7 +184,6 @@
   arazzo: null
 - slug: sage-intacct-monday-com
   label: monday.com
-  partner: monday-com
   partner_name: monday.com
   category: Project Management
   type: marketplace
@@ -196,7 +195,6 @@
   arazzo: null
 - slug: sage-intacct-microsoft-excel
   label: Microsoft Excel
-  partner: microsoft-excel
   partner_name: Microsoft Excel
   category: Microsoft
   type: marketplace
@@ -382,4 +380,16 @@
   evidence: https://zapier.com/apps/sage-intacct/integrations/planning-pod
   source: edge
   status: pending-partner-spec
+  arazzo: null
+- slug: sage-intacct-hightouch
+  label: Hightouch
+  partner: hightouch
+  partner_name: Hightouch
+  type: coverage
+  marketplace: coverage
+  channel: partner-built
+  evidence: https://hightouch.com/docs/destinations/sage-intacct
+  source: edge
+  relationship: connector-coverage
+  status: not-a-workflow
   arazzo: null
