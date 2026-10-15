@@ -7,6 +7,7 @@ checked:
 - https://hightouch.com/docs/destinations/sage-intacct
 - https://monid.ai/tools/sage-intacct
 - https://n8n.io/integrations/sage-intacct/
+- https://zapier.com/api/v4/apps/
 - https://zapier.com/apps/sage-intacct/integrations
 summary: null
 marketplace_apps:
@@ -424,6 +425,31 @@ edges:
       - upsert
   detected_by: sweep-cdp.py
   first_seen: '2026-10-14'
+- partner_name: Zapier
+  partner: zapier
+  partner_match: aggregator
+  type: marketplace
+  marketplace: zapier-directory
+  channel: ipaas-listing
+  relationship: ipaas-bridge
+  direction: third-party
+  evidence: https://zapier.com/apps/sage-intacct/integrations
+  category: null
+  contract_reference:
+    register: Zapier app directory (zapier.com/api/v4/apps)
+    spec_file: null
+    role: ipaas-connector:zapier
+    registered_name: Sage Intacct
+    matched_domain: sage.com
+    matched_by: domain+name-among-holders
+    detected_by: sweep-workflow-automation.py
+    detected: '2026-10-15'
+    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
+    app_slug: sage-intacct
+    beta: false
+    builder: unknown (not in the directory record)
+  detected_by: sweep-workflow-automation.py
+  first_seen: '2026-10-15'
 templates:
 - title: Create Mailchimp Subscribers for new Vendors
   url: https://zapier.com/apps/mailchimp/integrations/sage-intacct/1770992/create-mailchimp-subscribers-for-new-vendors
